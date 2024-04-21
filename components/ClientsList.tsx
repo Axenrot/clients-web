@@ -6,7 +6,7 @@ const ClientsList = ({ clients = [] }: any) => {
       {/* Responsive container */}
 
       {/* Grid view for larger screens (md+) */}
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <div className="flex flex-col gap-4">
           {/* Header row */}
           <div className="grid grid-cols-10 gap-4 bg-gray-200 p-2 font-bold">
@@ -34,7 +34,7 @@ const ClientsList = ({ clients = [] }: any) => {
       </div>
 
       {/* Card view for smaller screens (sm-) - Same as before */}
-      <div className="md:hidden">
+      <div className="flex flex-col gap-6 lg:hidden">
         {clients.map((client: any) => (
           <div
             key={client.id}
