@@ -29,13 +29,13 @@ const Menu = () => {
           className="data-[selected=true]:text-sea hover:text-sea transition-all duration-200"
         />
       </Link>
-      {/* <Link href={""}>
+      <Link href={"/login"}>
         <RiHealthBookFill
           size={25}
           data-selected={pathname == "/"}
           className="data-[selected=true]:text-sea hover:text-sea transition-all duration-200"
         />
-      </Link> */}
+      </Link>
     </div>
   );
 };
