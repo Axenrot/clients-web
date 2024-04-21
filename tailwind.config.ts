@@ -19,7 +19,7 @@ const config: Config = {
         warm: "#f39011", // Warm Orange
         hot: "#e9453b", // Hot Red
         success: "#32b07e", // Jungle Green
-        neutral: "#e7e7e7", // Neutral Gray
+        neutral: { light: "#f4f4f4", dark: "#e7e7e7" }, // Neutral Gray
         dark: "#101828", // Dark Gray
       },
     },
