@@ -18,7 +18,11 @@ export default function RootLayout({
   return (
     <AuthProvider>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body
+          className={`${inter.className} bg-[url('/feenixbg.png')] bg-cover`}
+        >
+          {children}
+        </body>
       </html>
     </AuthProvider>
   );

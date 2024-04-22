@@ -1,4 +1,3 @@
-"use client";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, ReactNode } from "react";
 import { AuthContext } from "@/context/Auth";
@@ -18,7 +17,7 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const router = useRouter();
   const { logout } = useContext(AuthContext) ?? {};
-  const token = sessionStorage.getItem("token");
+  const token = sessionStorage ? sessionStorage.getItem("token") : null;
 
   useEffect(() => {
     if (token) {

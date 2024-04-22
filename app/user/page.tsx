@@ -1,6 +1,6 @@
 "use client";
-import Layout from "@/components/Layout";
-import Menu from "@/components/Menu";
+import Layout from "@/app/components/Layout";
+import Menu from "@/app/components/Menu";
 import { AuthContext } from "@/context/Auth";
 import api from "@/services/Api";
 import ProtectedRoute from "@/services/RouteProtection";

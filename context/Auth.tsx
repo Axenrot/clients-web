@@ -21,7 +21,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user"); // Use sessionStorage here
-    const storedToken = sessionStorage.getItem("token"); // Use sessionStorage here
+    const storedToken = sessionStorage.getItem("token") || null; // Use sessionStorage here
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
       setToken(storedToken);
