@@ -1,6 +1,32 @@
-import React from "react";
+"use client";
+import { AuthContext } from "@/context/Auth";
+import api from "@/services/Api";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { IClient } from "@/types/client";
 
-const ClientsList = ({ clients = [] }: any) => {
+const ClientsList = ({
+  filterTerm,
+  setFilterTerm,
+}: {
+  filterTerm: string;
+  setFilterTerm: Dispatch<SetStateAction<string>>;
+}) => {
+  const { user } = useContext(AuthContext) ?? {};
+  const [clients, setClients] = useState<IClient[]>([]);
+
+  useEffect(() => {
+    if (user) {
+      api.get("/client/list/").then((response: any) => {
+        setClients(response.data);
+      });
+    }
+  }, [user]);
   return (
     <div className="flex flex-col gap-6">
       {/* Responsive container */}

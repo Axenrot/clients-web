@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { createContext, useState, useEffect } from "react";
 
 interface AuthContextType {
@@ -16,10 +17,11 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<any | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const storedToken = localStorage.getItem("token");
+    const storedUser = sessionStorage.getItem("user"); // Use sessionStorage here
+    const storedToken = sessionStorage.getItem("token"); // Use sessionStorage here
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
       setToken(storedToken);
@@ -27,17 +29,18 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const login = (newToken: string, newUser: any) => {
-    localStorage.setItem("token", newToken);
-    localStorage.setItem("user", JSON.stringify(newUser));
+    sessionStorage.setItem("token", newToken); // Use sessionStorage here
+    sessionStorage.setItem("user", JSON.stringify(newUser)); // Use sessionStorage here
     setUser(newUser);
     setToken(newToken);
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
     setUser(null);
     setToken(null);
+    router.push("/login"); // Add this line to redirect
   };
 
   return (

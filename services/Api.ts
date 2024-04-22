@@ -1,9 +1,7 @@
-// Api.ts
-
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/", // Replace with your API URL
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -11,7 +9,7 @@ const api = axios.create({
 
 // Add a request interceptor to include the auth token
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

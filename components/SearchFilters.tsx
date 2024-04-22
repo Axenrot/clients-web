@@ -1,9 +1,16 @@
 "use client";
-import { useState } from "react";
-import { FaMagnet, FaPlus } from "react-icons/fa";
+import { shoot } from "@/services/SwalCall";
+import { Dispatch, SetStateAction, useState } from "react";
+import { GoPlus } from "react-icons/go";
+import { IoSearchOutline } from "react-icons/io5";
 
-const SearchFilters = () => {
-  const [filterTerm, setFilterTerm] = useState("");
+const SearchFilters = ({
+  filterTerm,
+  setFilterTerm,
+}: {
+  filterTerm: string;
+  setFilterTerm: Dispatch<SetStateAction<string>>;
+}) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newClient, setNewClient] = useState({
     name: "",
@@ -14,18 +21,19 @@ const SearchFilters = () => {
     address: "",
   });
 
-  const handleFilterChange = (e) => {
-    setFilterTerm(e.target.value);
-  };
-
   const handleAddClient = () => {
     setShowAddForm(!showAddForm);
   };
 
-  const handleAddFormSubmit = (e) => {
+  const handleAddFormSubmit = async (e) => {
     e.preventDefault();
-    // Add the new client to the list (you'll need to implement this logic)
-    // ...
+    try {
+      await api.patch("/client/create", newClient).then(() => {
+        shoot(`Client added successfully!`);
+      });
+    } catch (error) {
+      shoot("Couldn't handle this, please try again", "error");
+    }
     setShowAddForm(false);
   };
 
@@ -36,22 +44,17 @@ const SearchFilters = () => {
           <input
             type="search"
             value={filterTerm}
-            onChange={handleFilterChange}
+            onChange={(e) => setFilterTerm(e.target.value)}
             placeholder="Search clients..."
-            className="py-2 pl-10 text-sm text-gray-700"
+            className="py-2 pl-10 text-sm text-gray-700 focus:outline-none"
           />
-          <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
-            <FaMagnet className="text-lg" />
-            Filter
+          <button className="text-dark font-bold hover:text-sea transition-all duration-200 hover:scale-105 hover:rotate-3">
+            <IoSearchOutline className="text-lg" />
           </button>
         </div>
         <div className="flex items-center">
-          <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            onClick={handleAddClient}
-          >
-            <FaPlus className="text-lg" />
-            Add Client
+          <button className="text-dark" onClick={handleAddClient}>
+            <GoPlus className="text-2xl hover:text-sea transition-all duration-200 hover:scale-105 hover:rotate-180" />
           </button>
         </div>
       </span>
