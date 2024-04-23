@@ -54,7 +54,6 @@ const LoginForm = ({
             <div className="flex items-center justify-between">
               <div className="flex items-start">
                 <Switch
-                  className=""
                   id="remember"
                   name="remember"
                   label="Remember me"

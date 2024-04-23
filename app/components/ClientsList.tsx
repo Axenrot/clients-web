@@ -9,24 +9,17 @@ import React, {
   useState,
 } from "react";
 import { IClient } from "@/types/client";
+import { Avatar } from "rizzui";
 
 const ClientsList = ({
   filterTerm,
   setFilterTerm,
+  clients = [],
 }: {
-  filterTerm: string;
-  setFilterTerm: Dispatch<SetStateAction<string>>;
+  clients?: Array<IClient>;
+  filterTerm?: string;
+  setFilterTerm?: Dispatch<SetStateAction<string>>;
 }) => {
-  const { user } = useContext(AuthContext) ?? {};
-  const [clients, setClients] = useState<IClient[]>([]);
-
-  useEffect(() => {
-    if (user) {
-      api.get("/client/list/").then((response: any) => {
-        setClients(response.data);
-      });
-    }
-  }, [user]);
   return (
     <div className="flex flex-col gap-6">
       {/* Responsive container */}
@@ -68,9 +61,17 @@ const ClientsList = ({
           >
             {/* Client Information Section */}
             <div className="flex flex-row items-center gap-3">
-              <h3 className="text-lg font-semibold">{client.name}</h3>
-              <p className="">{client.title}</p>
-              <p className="">{client.email}</p>
+              <h3 className="text-lg font-semibold">
+                <Avatar
+                  size="sm"
+                  name={client.name}
+                  rounded="md"
+                  className="aspect-square"
+                />
+                {client.name}
+              </h3>
+              <p>{client.title}</p>
+              <p>{client.email}</p>
             </div>
 
             {/* Additional Details Section */}

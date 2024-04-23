@@ -1,14 +1,10 @@
 "use client";
 import { AuthContext } from "@/context/Auth";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContext } from "react";
-import {
-  RiContactsBook3Fill,
-  RiUserFill,
-  RiLogoutBoxLine,
-} from "react-icons/ri";
+import { BiSolidLogOut } from "react-icons/bi";
+import { FaAddressBook, FaUser } from "react-icons/fa";
 import { Avatar, Badge } from "rizzui";
 
 const Menu = () => {
@@ -16,7 +12,7 @@ const Menu = () => {
   const { logout } = useContext(AuthContext) ?? {};
 
   return (
-    <div className="flex md:flex-col gap-12 justify-center items-center w-full h-[50px] md:h-full md:w-[50px] bg-neutral-primary/60 border-t md:border-t-0 md:border-r border-zinc-300 px-3 md:px-0 md:py-3 shadow-sm text-primary">
+    <div className="flex md:flex-col gap-12 justify-center items-center w-full h-[50px] md:h-full md:w-[50px] bg-neutral-primary/60 border-t md:border-t-0 md:border-r border-zinc-200/20 dark:border-black/10 px-3 md:px-0 md:py-3 shadow-sm bg-zinc-100/40 dark:bg-zinc-950/50">
       <div className="relative inline-flex mr-auto md:mr-0 mb-0 md:mb-auto">
         <Avatar
           name="Jane Doe"
@@ -33,21 +29,21 @@ const Menu = () => {
         />
       </div>
       <Link href={"/user"}>
-        <RiUserFill
-          size={25}
+        <FaUser
+          size={20}
           data-selected={pathname == "/user"}
           className="data-[selected=true]:text-secondary hover:text-secondary transition-all duration-200"
         />
       </Link>
       <Link href={"/agenda"}>
-        <RiContactsBook3Fill
-          size={25}
+        <FaAddressBook
+          size={20}
           data-selected={pathname == "/"}
           className="data-[selected=true]:text-secondary hover:text-secondary transition-all duration-200"
         />
       </Link>
 
-      <RiLogoutBoxLine
+      <BiSolidLogOut
         size={25}
         onClick={() => {
           if (logout) logout();
