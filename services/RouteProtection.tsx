@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, ReactNode } from "react";
+import { useContext, useEffect, ReactNode, useState } from "react";
 import { AuthContext } from "@/context/Auth";
 import { jwtDecode } from "jwt-decode";
 
@@ -17,8 +17,13 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const router = useRouter();
   const { logout } = useContext(AuthContext) ?? {};
-  const token = (sessionStorage.getItem("token") || "") as string;
+  const [token, setToken] = useState("");
 
+  useEffect(() => {
+    if (typeof sessionStorage != "undefined") {
+      setToken((sessionStorage.getItem("token") || "") as string);
+    }
+  }, []);
   useEffect(() => {
     if (token) {
       const decodedToken = jwtDecode(token) as DecodedToken;

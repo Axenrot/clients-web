@@ -1,5 +1,4 @@
 "use client";
-
 import axios from "axios";
 
 const api = axios.create({
@@ -9,11 +8,12 @@ const api = axios.create({
   },
 });
 
-// Add a request interceptor to include the auth token
 api.interceptors.request.use((config) => {
-  const token = (sessionStorage.getItem("token") || "") as string;
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  if (typeof window !== "undefined") {
+    const token = (sessionStorage.getItem("token") || "") as string;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
   return config;
 });
