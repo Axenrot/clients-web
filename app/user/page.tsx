@@ -3,16 +3,18 @@ import Layout from "@/app/components/Layout";
 import Menu from "@/app/components/Menu";
 import { AuthContext } from "@/context/Auth";
 import api from "@/services/Api";
+
+import toast from "react-hot-toast";
+import { IUpdateUser } from "@/types/user";
+import { useContext } from "react";
+import { Button, Input, Password } from "rizzui";
+import dynamic from "next/dynamic";
 const DynamicProtectedRoute = dynamic(
   () => import("@/services/RouteProtection"),
   {
     ssr: false, // This ensures the component is only loaded on the client-side
   }
 );
-import toast from "react-hot-toast";
-import { IUpdateUser } from "@/types/user";
-import { useContext } from "react";
-import { Button, Input, Password } from "rizzui";
 
 export default function User() {
   const { user, login, token } = useContext(AuthContext) ?? {};
