@@ -51,7 +51,7 @@ const SearchFilters = ({
       });
     } catch (error: any) {
       if (Array.isArray(error?.response?.data?.message)) {
-        error!.response?.data.message.forEach((message) =>
+        error!.response?.data.message.forEach((message: string) =>
           toast.error(message)
         );
       } else if (error?.response?.data?.message) {
