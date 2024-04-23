@@ -4,7 +4,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "@/context/Auth";
 import { useRouter } from "next/navigation";
 import api from "@/services/Api";
-import { shoot } from "@/services/SwalCall";
+import toast from "react-hot-toast";
 import LoginForm from "@/app/components/Login";
 import RegisterForm from "@/app/components/Register";
 
@@ -35,17 +35,17 @@ const LoginRegister: React.FC = () => {
 
       // remember button config
       if (remember.checked) {
-        localStorage.setItem("email", email.value);
-        localStorage.setItem("password", password.value);
+        sessionStorage.setItem("email", email.value);
+        sessionStorage.setItem("password", password.value);
       } else {
-        localStorage.removeItem("email");
-        localStorage.removeItem("password");
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("password");
       }
       router.push("/");
 
-      shoot("Welcome my friend! :)");
+      toast.success("Welcome my friend! :)");
     } catch (error) {
-      shoot("Couldn't login, please try again", "error");
+      toast.error("Credentials invalid");
     }
   };
 
@@ -67,15 +67,15 @@ const LoginRegister: React.FC = () => {
     try {
       await api
         .post("/auth/register", {
-          email,
-          confirmEmail,
-          password,
-          confirmPassword,
-          firstName,
-          lastName,
+          email: email.value,
+          confirmEmail: confirmEmail.value,
+          password: password.value,
+          confirmPassword: confirmPassword.value,
+          firstName: firstName.value,
+          lastName: lastName.value,
         })
         .then(() => {
-          shoot(
+          toast.success(
             firstName
               ? "Now you can login properly!"
               : `Now you can login properly ${firstName}!`
@@ -83,7 +83,7 @@ const LoginRegister: React.FC = () => {
           setIsLogin(true);
         });
     } catch (error) {
-      shoot("Couldn't register, please try again", "error");
+      toast.error("Couldn't register, please try again");
     }
   };
 

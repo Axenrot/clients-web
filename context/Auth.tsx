@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import React, { createContext, useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 interface AuthContextType {
   user: any | null;
@@ -40,6 +41,9 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     sessionStorage.removeItem("user");
     setUser(null);
     setToken(null);
+    toast("See ya!", {
+      icon: "👏",
+    });
     router.push("/login"); // Add this line to redirect
   };
 

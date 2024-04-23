@@ -1,8 +1,11 @@
 "use client";
-import { shoot } from "@/services/SwalCall";
+import toast from "react-hot-toast";
 import { Dispatch, SetStateAction, useState } from "react";
 import { GoPlus } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
+import api from "@/services/Api";
+import { Button, Input } from "rizzui";
+import { RiPencilFill } from "react-icons/ri";
 
 const SearchFilters = ({
   filterTerm,
@@ -12,87 +15,155 @@ const SearchFilters = ({
   setFilterTerm: Dispatch<SetStateAction<string>>;
 }) => {
   const [showAddForm, setShowAddForm] = useState(false);
-  const [newClient, setNewClient] = useState({
-    name: "",
-    title: "",
-    country: "",
-    email: "",
-    phone: "",
-    address: "",
-  });
 
   const handleAddClient = () => {
     setShowAddForm(!showAddForm);
   };
 
-  const handleAddFormSubmit = async (e) => {
+  const handleAddFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const form = e.currentTarget;
+    const name = form.elements.namedItem("name") as HTMLInputElement;
+    const email = form.elements.namedItem("email") as HTMLInputElement;
+    const title = form.elements.namedItem("title") as HTMLInputElement;
+    const country = form.elements.namedItem("country") as HTMLInputElement;
+    const phone = form.elements.namedItem("phone") as HTMLInputElement;
+    const address = form.elements.namedItem("address") as HTMLInputElement;
+
+    const newClient = {
+      name: name.value,
+      email: email.value,
+      title: title.value,
+      country: country.value,
+      phone: phone.value,
+      address: address.value,
+    };
     try {
-      await api.patch("/client/create", newClient).then(() => {
-        shoot(`Client added successfully!`);
+      await api.post("/client/create", newClient).then(() => {
+        toast.success(`Client added successfully!`);
+        name.value = "";
+        email.value = "";
+        title.value = "";
+        country.value = "";
+        phone.value = "";
+        address.value = "";
       });
-    } catch (error) {
-      shoot("Couldn't handle this, please try again", "error");
+    } catch (error: any) {
+      if (Array.isArray(error?.response?.data?.message)) {
+        error!.response?.data.message.forEach((message) =>
+          toast.error(message)
+        );
+      } else if (error?.response?.data?.message) {
+        toast.error(error?.response?.data?.message);
+      } else {
+        toast.error("Couldn't handle this, please try again");
+      }
     }
     setShowAddForm(false);
   };
 
   return (
     <div className="flex flex-col md:justify-between mb-4">
-      <span className="flex flex-row gap-6 justify-end">
-        <div className="flex items-center">
-          <input
-            type="search"
-            value={filterTerm}
-            onChange={(e) => setFilterTerm(e.target.value)}
-            placeholder="Search clients..."
-            className="py-2 pl-10 text-sm text-gray-700 focus:outline-none"
-          />
-          <button className="text-dark font-bold hover:text-sea transition-all duration-200 hover:scale-105 hover:rotate-3">
-            <IoSearchOutline className="text-lg" />
-          </button>
-        </div>
-        <div className="flex items-center">
-          <button className="text-dark" onClick={handleAddClient}>
-            <GoPlus className="text-2xl hover:text-sea transition-all duration-200 hover:scale-105 hover:rotate-180" />
-          </button>
-        </div>
+      <span className="flex flex-row gap-6 p-3 justify-end">
+        <Input
+          placeholder="Search something..."
+          value={filterTerm}
+          onChange={(e) => setFilterTerm(e.target.value)}
+          variant="text"
+          suffix={
+            <IoSearchOutline
+              onClick={() => {
+                toast("Hello!", {
+                  icon: "👏",
+                });
+              }}
+              className="text-lg cursor-pointer hover:text-secondary transition-all duration-200 hover:rotate-6"
+            />
+          }
+        />
+
+        <button className="text-primary" onClick={handleAddClient}>
+          <GoPlus className="text-2xl hover:text-blue transition-all duration-200 hover:scale-105" />
+        </button>
       </span>
       {showAddForm && (
-        <form onSubmit={handleAddFormSubmit} className="flex flex-row ml-4">
-          <input
-            type="text"
-            value={newClient.name}
-            onChange={(e) =>
-              setNewClient({ ...newClient, name: e.target.value })
-            }
+        <form
+          onSubmit={handleAddFormSubmit}
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 p-2 rounded-md gap-2 flex-row bg-neutral-light"
+        >
+          <Input
             placeholder="Name"
-            className="py-2 pl-10 text-sm text-gray-700"
-          />
-          <input
-            type="text"
-            value={newClient.title}
-            onChange={(e) =>
-              setNewClient({ ...newClient, title: e.target.value })
+            name="name"
+            id="name"
+            inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
+            className="group text-primary/90"
+            suffix={
+              <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
             }
+            variant="text"
+          />
+          <Input
             placeholder="Title"
-            className="py-2 pl-10 text-sm text-gray-700"
-          />
-          <input
-            type="text"
-            value={newClient.country}
-            onChange={(e) =>
-              setNewClient({ ...newClient, country: e.target.value })
+            name="title"
+            id="title"
+            inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
+            className="group text-primary/90"
+            suffix={
+              <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
             }
-            placeholder="Country"
-            className="py-2 pl-10 text-sm text-gray-700"
+            variant="text"
           />
-          <button
+          <Input
+            placeholder="Country"
+            name="country"
+            id="country"
+            inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
+            className="group text-primary/90"
+            suffix={
+              <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
+            }
+            variant="text"
+          />
+          <Input
+            placeholder="Email"
+            name="email"
+            id="email"
+            inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
+            className="group text-primary/90"
+            suffix={
+              <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
+            }
+            variant="text"
+          />
+          <Input
+            placeholder="Phone"
+            name="phone"
+            id="phone"
+            inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
+            className="group text-primary/90"
+            suffix={
+              <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
+            }
+            variant="text"
+          />
+          <Input
+            placeholder="Address"
+            name="address"
+            id="address"
+            inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
+            className="group text-primary/90"
+            suffix={
+              <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
+            }
+            variant="text"
+          />
+          <Button
             type="submit"
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            className="col-span-2 md:col-span-3 lg:col-span-1"
           >
             Add
-          </button>
+          </Button>
         </form>
       )}
     </div>
