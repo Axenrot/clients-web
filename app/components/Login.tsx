@@ -15,8 +15,8 @@ const LoginForm = ({
   let savedPassword = "";
 
   if (typeof window !== "undefined") {
-    savedEmail = sessionStorage.getItem("email") || "";
-    savedPassword = sessionStorage.getItem("password") || "";
+    savedEmail = (sessionStorage.getItem("email") || "") as string;
+    savedPassword = (sessionStorage.getItem("password") || "") as string;
   }
 
   return (

@@ -17,7 +17,7 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const router = useRouter();
   const { logout } = useContext(AuthContext) ?? {};
-  const token = sessionStorage ? sessionStorage.getItem("token") : null;
+  const token = (sessionStorage.getItem("token") || "") as string;
 
   useEffect(() => {
     if (token) {

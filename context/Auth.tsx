@@ -21,8 +21,8 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("user"); // Use sessionStorage here
-    const storedToken = sessionStorage.getItem("token") || null; // Use sessionStorage here
+    const storedUser = (sessionStorage.getItem("user") || "") as string;
+    const storedToken = (sessionStorage.getItem("token") || "") as string;
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
       setToken(storedToken);
@@ -30,8 +30,8 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const login = (newToken: string, newUser: any) => {
-    sessionStorage.setItem("token", newToken); // Use sessionStorage here
-    sessionStorage.setItem("user", JSON.stringify(newUser)); // Use sessionStorage here
+    sessionStorage.setItem("token", newToken);
+    sessionStorage.setItem("user", JSON.stringify(newUser));
     setUser(newUser);
     setToken(newToken);
   };
