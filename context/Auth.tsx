@@ -44,7 +44,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     toast("See ya!", {
       icon: "👏",
     });
-    router.push("/login"); // Add this line to redirect
+    router.push("/"); // Add this line to redirect
   };
 
   return (

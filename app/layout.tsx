@@ -20,7 +20,7 @@ export default function RootLayout({
     <AuthProvider>
       <html lang="en">
         <body
-          className={`${inter.className} bg-[url('/feenixbg.png')] bg-cover`}
+          className={`${inter.className} bg-[url('/feenixbg.png')] min-h-screen bg-fixed bg-cover`}
         >
           {children}
           <Toaster

@@ -20,9 +20,9 @@ const config: Config = {
         foreground: colors.gray[600],
         muted: colors.gray[200],
         primary: {
-          lighter: colors.gray[200],
-          DEFAULT: "#101828", // Dark Gray
-          dark: colors.gray[950],
+          lighter: colors.zinc[400],
+          DEFAULT: colors.zinc[300], // Dark zinc
+          dark: colors.zinc[900],
           foreground: colors.white,
         },
         secondary: {

@@ -35,7 +35,7 @@ const ClientsList = ({
       <div className="hidden lg:block">
         <div className="flex flex-col gap-4">
           {/* Header row */}
-          <div className="grid grid-cols-10 gap-4 bg-gray-200 p-2 font-bold">
+          <div className="grid grid-cols-10 gap-4 p-2 font-bold">
             {/* Header cells */}
             <div className="col-span-2">Name</div>
             <div>Title</div>
@@ -64,19 +64,17 @@ const ClientsList = ({
         {clients.map((client: any) => (
           <div
             key={client.id}
-            className="bg-neutral-light shadow-md rounded-full p-4 flex flex-col md:flex-row md:items-center md:justify-between"
+            className=" shadow-md rounded-full p-4 flex flex-col md:flex-row md:items-center md:justify-between"
           >
             {/* Client Information Section */}
             <div className="flex flex-row items-center gap-3">
-              <h3 className="text-lg font-semibold text-gray-900">
-                {client.name}
-              </h3>
-              <p className="text-gray-600">{client.title}</p>
-              <p className="text-gray-600">{client.email}</p>
+              <h3 className="text-lg font-semibold">{client.name}</h3>
+              <p className="">{client.title}</p>
+              <p className="">{client.email}</p>
             </div>
 
             {/* Additional Details Section */}
-            <div className="mt-4 md:mt-0 flex items-center text-gray-600">
+            <div className="mt-4 md:mt-0 flex items-center">
               <p className="mr-4">
                 <i className="fas fa-globe-americas mr-1"></i> {client.country}
               </p>

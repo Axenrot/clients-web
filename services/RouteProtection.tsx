@@ -32,7 +32,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
         if (logout) {
           logout();
           // clear the session and redirect to login page
-          router.push("/login");
+          router.push("/");
         }
       }
     }

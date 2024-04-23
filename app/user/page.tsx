@@ -64,10 +64,10 @@ export default function User() {
   };
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      <div className="flex text-black w-full container p-3 min-h-screen">
-        <div className="flex-1 flex flex-col-reverse md:flex-row w-full overflow-hidden bg-white shadow-lg shadow-black/20 rounded-xl border-gray-gray1/60 text-black">
+      <div className="flex w-full container p-3 min-h-screen">
+        <div className="flex-1 flex flex-col-reverse md:flex-row w-full overflow-hidden bg-white dark:bg-primary-dark shadow-lg shadow-black/20 rounded-xl border-2 border-primary/10 dark:border-primary-dark/30">
           <Menu />
-          <div className="relative flex flex-col w-full gap-2 bg-gradient-to-tl from-gray-gray1/50 to-gray-gray2">
+          <div className="relative flex flex-col w-full gap-2 bg-gradient-to-tl from-gray-gray1/50 to-gray-gray2 p-2">
             <Layout title="Update User">
               <DynamicProtectedRoute>
                 <form
@@ -80,8 +80,6 @@ export default function User() {
                     name="email"
                     id="email"
                     placeholder="your@email.here"
-                    labelClassName="text-primary"
-                    className="text-primary/90"
                   />
                   <Input
                     type="email"
@@ -89,8 +87,6 @@ export default function User() {
                     name="confirmEmail"
                     id="confirmEmail"
                     placeholder="your@email.here"
-                    labelClassName="text-primary"
-                    className="text-primary/90"
                   />
 
                   <Password
@@ -98,8 +94,6 @@ export default function User() {
                     name="password"
                     id="password"
                     placeholder="••••••••"
-                    labelClassName="text-primary"
-                    className="text-primary/90"
                   />
 
                   <Password
@@ -107,8 +101,6 @@ export default function User() {
                     name="confirmPassword"
                     id="confirmPassword"
                     placeholder="••••••••"
-                    labelClassName="text-primary"
-                    className="text-primary/90"
                   />
 
                   <Input
@@ -116,8 +108,6 @@ export default function User() {
                     name="firstName"
                     id="firstName"
                     placeholder={user?.last_name || "John"}
-                    labelClassName="text-primary"
-                    className="text-primary/90"
                   />
 
                   <Input
@@ -125,13 +115,15 @@ export default function User() {
                     name="lastName"
                     id="lastName"
                     placeholder={user?.last_name || "Doe"}
-                    labelClassName="text-primary"
-                    className="text-primary/90"
                   />
 
                   {/* Register Button */}
                   <span className="flex items-center justify-center col-span-2">
-                    <Button type="submit" variant="solid" className="lg:w-1/2">
+                    <Button
+                      type="submit"
+                      variant="solid"
+                      className="lg:w-1/2 dark:bg-primary bg-primary-dark text-primary dark:text-primary-dark"
+                    >
                       Save
                     </Button>
                   </span>

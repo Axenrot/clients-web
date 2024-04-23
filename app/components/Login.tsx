@@ -21,7 +21,7 @@ const LoginForm = ({
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <span className="flex select-none items-center mb-6 text-2xl font-semibold text-primary">
+      <span className="flex select-none items-center mb-6 text-2xl font-semibold">
         <Image
           width={100}
           height={100}
@@ -30,9 +30,9 @@ const LoginForm = ({
           alt="Feenix Logo"
         />
       </span>
-      <div className="w-full bg-white rounded-xl shadow-xl shadow-black/20  sm:max-w-md xl:p-2">
+      <div className="w-full bg-white  dark:bg-primary-dark rounded-xl shadow-xl shadow-black/20  sm:max-w-md xl:p-2">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 className="text-xl font-bold leading-tight tracking-tight text-primary md:text-2xl">
+          <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl">
             Sign in to your account
           </h1>
           <form onSubmit={handleLoginSubmit} className="space-y-4 md:space-y-6">
@@ -43,8 +43,6 @@ const LoginForm = ({
               id="email"
               placeholder="your@email.here"
               defaultValue={savedEmail}
-              labelClassName="text-primary"
-              className="text-primary/90"
             />
             <Password
               label="Password"
@@ -52,8 +50,6 @@ const LoginForm = ({
               defaultValue={savedPassword}
               id="password"
               placeholder="••••••••"
-              labelClassName="text-primary"
-              className="text-primary/90"
             />
             <div className="flex items-center justify-between">
               <div className="flex items-start">
@@ -62,7 +58,6 @@ const LoginForm = ({
                   id="remember"
                   name="remember"
                   label="Remember me"
-                  labelClassName="text-primary"
                   defaultChecked={!!(savedPassword && savedEmail)}
                 />
               </div>
@@ -73,15 +68,19 @@ const LoginForm = ({
                 Forgot password?
               </button>
             </div>
-            <Button variant="solid" type="submit" className="w-full">
+            <Button
+              variant="solid"
+              type="submit"
+              className="w-full dark:bg-primary bg-primary-dark text-primary dark:text-primary-dark font-bold"
+            >
               Sign in
             </Button>
-            <p className="text-sm font-light text-gray-500 ">
+            <p className="text-sm font-light text-gray-700 dark:text-gray-200">
               Don’t have an account yet?{" "}
               <button
                 type="button"
                 onClick={() => setIsLogin(false)}
-                className="font-medium text-primary-600 transition-all duration-200 hover:text-blue hover:underline "
+                className="font-medium transition-all duration-200 hover:text-blue hover:underline "
               >
                 Sign up
               </button>

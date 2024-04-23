@@ -39,7 +39,7 @@ const Menu = () => {
           className="data-[selected=true]:text-secondary hover:text-secondary transition-all duration-200"
         />
       </Link>
-      <Link href={"/"}>
+      <Link href={"/agenda"}>
         <RiContactsBook3Fill
           size={25}
           data-selected={pathname == "/"}

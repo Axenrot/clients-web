@@ -1,40 +1,108 @@
 "use client";
-import ClientsList from "@/app/components/ClientsList";
-import Layout from "@/app/components/Layout";
-import Menu from "@/app/components/Menu";
-import SearchFilters from "@/app/components/SearchFilters";
-import { useState } from "react";
-import dynamic from "next/dynamic";
 
-const DynamicProtectedRoute = dynamic(
-  () => import("@/services/RouteProtection"),
-  {
-    ssr: false, // This ensures the component is only loaded on the client-side
-  }
-);
-export default function Home() {
-  const [filterTerm, setFilterTerm] = useState("");
+import React, { useState, useContext } from "react";
+import { AuthContext } from "@/context/Auth";
+import { useRouter } from "next/navigation";
+import api from "@/services/Api";
+import toast from "react-hot-toast";
+import LoginForm from "@/app/components/Login";
+import RegisterForm from "@/app/components/Register";
+
+const Home: React.FC = () => {
+  const router = useRouter();
+  const [isLogin, setIsLogin] = useState(true);
+
+  const { login } = useContext(AuthContext) ?? {};
+
+  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Acesse os elementos do formulário
+    const form = e.currentTarget;
+    const email = form.elements.namedItem("email") as HTMLInputElement;
+    const password = form.elements.namedItem("password") as HTMLInputElement;
+    const remember = form.elements.namedItem("remember") as HTMLInputElement;
+
+    try {
+      const response = await api.post("/auth/login", {
+        email: email.value,
+        password: password.value,
+      });
+      const { access_token } = response.data;
+      delete response.data.access_token;
+      // setting token and user context props
+      login?.(access_token, response.data);
+
+      // remember button config
+      if (remember.checked) {
+        sessionStorage.setItem("email", email.value);
+        sessionStorage.setItem("password", password.value);
+      } else {
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("password");
+      }
+      router.push("/agenda");
+
+      toast.success("Welcome my friend! :)");
+    } catch (error) {
+      toast.error("Credentials invalid");
+    }
+  };
+
+  const handleRegisterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const email = form.elements.namedItem("email") as HTMLInputElement;
+    const confirmEmail = form.elements.namedItem(
+      "confirmEmail"
+    ) as HTMLInputElement;
+    const password = form.elements.namedItem("password") as HTMLInputElement;
+    const confirmPassword = form.elements.namedItem(
+      "confirmPassword"
+    ) as HTMLInputElement;
+    const firstName = form.elements.namedItem("firstName") as HTMLInputElement;
+    const lastName = form.elements.namedItem("lastName") as HTMLInputElement;
+
+    try {
+      await api
+        .post("/auth/register", {
+          email: email.value,
+          confirmEmail: confirmEmail.value,
+          password: password.value,
+          confirmPassword: confirmPassword.value,
+          firstName: firstName.value,
+          lastName: lastName.value,
+        })
+        .then(() => {
+          toast.success(
+            firstName
+              ? "Now you can login properly!"
+              : `Now you can login properly ${firstName}!`
+          );
+          setIsLogin(true);
+        });
+    } catch (error) {
+      toast.error("Couldn't register, please try again");
+    }
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      <div className="flex text-black w-full container p-3 h-screen">
-        <div className="flex-1 flex flex-col-reverse md:flex-row w-full overflow-hidden bg-white shadow-lg shadow-black/20 rounded-xl border-gray-gray1/60 text-black">
-          <Menu />
-          <div className="relative flex flex-col w-full gap-2 border-gray-gray2 bg-gradient-to-tl from-gray-gray1/50 to-gray-gray2">
-            <Layout title="Clients Agenda">
-              <DynamicProtectedRoute>
-                <SearchFilters
-                  filterTerm={filterTerm}
-                  setFilterTerm={setFilterTerm}
-                />
-                <ClientsList
-                  filterTerm={filterTerm}
-                  setFilterTerm={setFilterTerm}
-                />
-              </DynamicProtectedRoute>
-            </Layout>
-          </div>
-        </div>
-      </div>
-    </main>
+    <div className="flex-1 w-full h-screen items-center justify-center flex text-primary-dark dark:text-primary p-24 my-12">
+      {isLogin ? (
+        // Login Form
+        <LoginForm
+          handleLoginSubmit={handleLoginSubmit}
+          setIsLogin={setIsLogin}
+        />
+      ) : (
+        <RegisterForm
+          handleRegisterSubmit={handleRegisterSubmit}
+          setIsLogin={setIsLogin}
+        />
+      )}
+    </div>
   );
-}
+};
+
+export default Home;

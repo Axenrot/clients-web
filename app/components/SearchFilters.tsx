@@ -4,8 +4,9 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { GoPlus } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
 import api from "@/services/Api";
-import { Button, Input } from "rizzui";
+import { Button, Input, Select } from "rizzui";
 import { RiPencilFill } from "react-icons/ri";
+import { countryOptions, titleOptions } from "@/types/client";
 
 const SearchFilters = ({
   filterTerm,
@@ -90,39 +91,36 @@ const SearchFilters = ({
       {showAddForm && (
         <form
           onSubmit={handleAddFormSubmit}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 p-2 rounded-md gap-2 flex-row bg-neutral-light"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 p-2 rounded-md gap-2 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
         >
           <Input
             placeholder="Name"
             name="name"
             id="name"
             inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
-            className="group text-primary/90"
+            className="group"
             suffix={
               <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
             }
             variant="text"
           />
-          <Input
+          <Select
             placeholder="Title"
             name="title"
             id="title"
-            inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
-            className="group text-primary/90"
-            suffix={
-              <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
-            }
+            options={titleOptions}
+            selectClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
+            optionClassName="transition-all duration-100"
             variant="text"
           />
-          <Input
+
+          <Select
             placeholder="Country"
             name="country"
             id="country"
-            inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
-            className="group text-primary/90"
-            suffix={
-              <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
-            }
+            options={countryOptions}
+            selectClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
+            optionClassName="transition-all duration-100"
             variant="text"
           />
           <Input
@@ -160,7 +158,7 @@ const SearchFilters = ({
           />
           <Button
             type="submit"
-            className="col-span-2 md:col-span-3 lg:col-span-1"
+            className="col-span-2 md:col-span-3 lg:col-span-1 dark:bg-primary bg-primary-dark text-primary dark:text-primary-dark"
           >
             Add
           </Button>
