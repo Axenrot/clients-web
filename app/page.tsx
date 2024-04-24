@@ -88,7 +88,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 w-full h-screen items-center justify-center flex text-primary-dark dark:text-primary p-24 my-12">
+    <div className="flex-1 w-full min-h-screen items-center justify-center flex text-primary-dark dark:text-primary p-24">
       {isLogin ? (
         // Login Form
         <LoginForm

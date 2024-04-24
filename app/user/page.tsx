@@ -71,7 +71,7 @@ export default function User() {
             <Layout title="Update User">
               <DynamicProtectedRoute>
                 <form
-                  className="w-full grid grid-cols-1 md:grid-cols-2 gap-6"
+                  className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 fadein"
                   onSubmit={userUpdate}
                 >
                   <Input
