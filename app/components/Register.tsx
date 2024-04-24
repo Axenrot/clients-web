@@ -12,7 +12,7 @@ const RegisterForm = ({
   setIsLogin: Dispatch<SetStateAction<boolean>>;
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 fadein">
+    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto fadein">
       <span className="flex select-none items-center mb-6 text-2xl font-semibold">
         <Image
           width={100}
