@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import { AuthContext } from "@/context/Auth";
 import api from "@/services/Api";
 import { IClient } from "@/types/client";
+import toast from "react-hot-toast";
 
 const DynamicProtectedRoute = dynamic(
   () => import("@/services/RouteProtection"),
@@ -19,6 +20,58 @@ const DynamicProtectedRoute = dynamic(
 export default function Agenda() {
   const { user } = useContext(AuthContext) ?? {};
   const [clients, setClients] = useState<IClient[]>([]);
+  const [country, setCountry] = useState<any>(null);
+  const [title, setTitle] = useState<any>(null);
+  const [filterTerm, setFilterTerm] = useState("");
+
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  const handleAddClient = () => {
+    setShowAddForm(!showAddForm);
+  };
+
+  const handleAddFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const name = form.elements.namedItem("name") as HTMLInputElement;
+    const email = form.elements.namedItem("email") as HTMLInputElement;
+    const phone = form.elements.namedItem("phone") as HTMLInputElement;
+    const address = form.elements.namedItem("address") as HTMLInputElement;
+
+    const newClient = {
+      name: name.value,
+      email: email.value,
+      title: title.value,
+      country: country.value,
+      phone: phone.value,
+      address: address.value,
+    };
+    try {
+      await api.post("/client/create", newClient).then(async () => {
+        search(filterTerm);
+        toast.success(`Client added successfully!`);
+        name.value = "";
+        email.value = "";
+        phone.value = "";
+        address.value = "";
+        setTitle(null);
+        setCountry(null);
+      });
+    } catch (error: any) {
+      if (Array.isArray(error?.response?.data?.message)) {
+        error!.response?.data.message.forEach((message: string) =>
+          toast.error(message)
+        );
+      } else if (error?.response?.data?.message) {
+        toast.error(error?.response?.data?.message);
+      } else {
+        toast.error("Couldn't handle this, please try again");
+      }
+    }
+    setShowAddForm(false);
+  };
+
   async function search(query: string) {
     api.get(`/client/list/?search=${query}`).then((response: any) => {
       setClients(response.data);
@@ -36,11 +89,24 @@ export default function Agenda() {
       <div className="flex w-full container p-3 h-screen">
         <div className="flex-1 flex flex-col-reverse md:flex-row w-full overflow-hidden bg-white dark:bg-primary-dark shadow-lg shadow-black/20 rounded-xl border-2 border-primary/10 dark:border-primary-dark/30">
           <Menu />
-          <div className="relative flex flex-col w-full gap-2">
+          <div className="relative flex-1 flex flex-col w-full gap-2">
             <Layout title="Clients Agenda">
               <DynamicProtectedRoute>
-                <SearchFilters search={search} />
-                <ClientsList clients={clients} />
+                <SearchFilters
+                  filterTerm={filterTerm}
+                  setFilterTerm={setFilterTerm}
+                  search={search}
+                  handleAddClient={handleAddClient}
+                />
+                <ClientsList
+                  country={country}
+                  setCountry={setCountry}
+                  title={title}
+                  setTitle={setTitle}
+                  showAddForm={showAddForm}
+                  clients={clients}
+                  handleAddFormSubmit={handleAddFormSubmit}
+                />
               </DynamicProtectedRoute>
             </Layout>
           </div>

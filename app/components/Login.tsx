@@ -21,7 +21,7 @@ const LoginForm = ({
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <span className="flex select-none items-center mb-6 text-2xl font-semibold">
+      <span className="flex select-none items-center mb-6 text-2xl font-semibold fadein">
         <Image
           width={100}
           height={100}
@@ -30,7 +30,7 @@ const LoginForm = ({
           alt="Feenix Logo"
         />
       </span>
-      <div className="w-full bg-white  dark:bg-primary-dark rounded-xl shadow-xl shadow-black/20  sm:max-w-md xl:p-2">
+      <div className="w-full bg-white  dark:bg-primary-dark rounded-xl shadow-xl shadow-black/20  sm:max-w-md xl:p-2 fadein">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl">
             Sign in to your account
