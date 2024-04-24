@@ -179,7 +179,7 @@ const ClientsList = ({
             </div>
           ))
         ) : clients.length == 0 && !loading ? (
-          <div className="flex-1 flex w-full items-center justify-center font-bold text-3xl">
+          <div className="flex-1 flex w-full min-h-[400px] items-center justify-center font-bold opacity-70 animate-pulse text-3xl">
             No clients yet, try adding some above
           </div>
         ) : (
