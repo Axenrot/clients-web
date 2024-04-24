@@ -75,7 +75,9 @@ const SearchFilters = ({ search }: { search: (arg0: string) => void }) => {
           <Input
             placeholder="Search something..."
             value={filterTerm}
-            onChange={setFilterTerm}
+            onChange={(e) => {
+              setFilterTerm(e.target.value);
+            }}
             variant="text"
             suffix={
               <button type="submit">
