@@ -18,8 +18,15 @@ enum Country {
   Spain, // Spain
   India, // India
 }
-
-export const titleJson = {
+interface TitleJson {
+  CEO: string;
+  CTO: string;
+  Director: string;
+  Manager: string;
+  Engineer: string;
+  [key: string]: string; // This is the index signature
+}
+export const titleJson: TitleJson = {
   CEO: "Chief Executive Officer",
   CTO: "Chief Technology Officer",
   Director: "Director",
