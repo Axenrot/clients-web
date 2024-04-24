@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import logo from "@/public/logo-vertical.svg";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button, Input, Password, Switch } from "rizzui";
 
 const LoginForm = ({
@@ -11,13 +11,19 @@ const LoginForm = ({
   handleLoginSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   setIsLogin: Dispatch<SetStateAction<boolean>>;
 }) => {
-  let savedEmail = "";
-  let savedPassword = "";
+  const [savedEmail, setSavedEmail] = useState<any | null>(null);
+  const [savedPassword, setSavedPassword] = useState<string | null>(null);
 
-  if (typeof localStorage !== "undefined") {
-    savedEmail = (localStorage.getItem("email") || "") as string;
-    savedPassword = (localStorage.getItem("password") || "") as string;
-  }
+  useEffect(() => {
+    let storedEmail = (localStorage.getItem("email") as string) || "";
+    let storedPassword = (localStorage.getItem("password") as string) || "";
+    if (typeof localStorage !== "undefined") {
+      setSavedEmail(storedEmail);
+      setSavedPassword(storedPassword);
+      const remember = document.getElementById("remember") as HTMLInputElement;
+      remember.checked = !!(storedPassword && storedPassword);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto fadein">
