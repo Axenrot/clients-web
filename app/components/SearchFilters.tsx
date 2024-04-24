@@ -1,12 +1,9 @@
 "use client";
 import toast from "react-hot-toast";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { GoPlus } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
-import api from "@/services/Api";
-import { Button, Input, Select } from "rizzui";
-import { RiPencilFill } from "react-icons/ri";
-import { countryOptions, titleOptions } from "@/types/client";
+import { Input } from "rizzui";
 
 const SearchFilters = ({
   search,

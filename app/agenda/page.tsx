@@ -23,6 +23,7 @@ export default function Agenda() {
   const [country, setCountry] = useState<any>(null);
   const [title, setTitle] = useState<any>(null);
   const [filterTerm, setFilterTerm] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const [showAddForm, setShowAddForm] = useState(false);
 
@@ -73,8 +74,10 @@ export default function Agenda() {
   };
 
   async function search(query: string) {
+    setLoading(true);
     api.get(`/client/list/?search=${query}`).then((response: any) => {
       setClients(response.data);
+      setLoading(false);
     });
   }
 
@@ -105,6 +108,7 @@ export default function Agenda() {
                   setTitle={setTitle}
                   showAddForm={showAddForm}
                   clients={clients}
+                  loading={loading}
                   handleAddFormSubmit={handleAddFormSubmit}
                 />
               </DynamicProtectedRoute>

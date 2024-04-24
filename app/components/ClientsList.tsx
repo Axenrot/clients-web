@@ -1,16 +1,7 @@
 "use client";
-import { AuthContext } from "@/context/Auth";
-import api from "@/services/Api";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect } from "react";
 import {
   IClient,
-  countryJson,
   countryOptions,
   titleJson,
   titleOptions,
@@ -19,7 +10,7 @@ import { Avatar, Button, Input, Select, Tooltip } from "rizzui";
 import { RiPencilFill } from "react-icons/ri";
 import { chainReveal } from "@/utils/animations";
 import { GoPlus } from "react-icons/go";
-import { MdAlternateEmail } from "react-icons/md";
+import { MdAlternateEmail, MdBusinessCenter } from "react-icons/md";
 import { FaPhone } from "react-icons/fa";
 import { IoMdPin } from "react-icons/io";
 
@@ -31,6 +22,7 @@ const ClientsList = ({
   setTitle,
   showAddForm,
   handleAddFormSubmit,
+  loading,
 }: {
   clients?: Array<IClient>;
   country: any;
@@ -39,6 +31,7 @@ const ClientsList = ({
   setTitle: React.Dispatch<any>;
   handleAddFormSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   showAddForm: boolean;
+  loading: boolean;
 }) => {
   useEffect(() => {
     chainReveal();
@@ -138,63 +131,70 @@ const ClientsList = ({
           </form>
         )}
 
-        {clients.map((client: any) => (
-          <div
-            key={client.id}
-            className="reveal-item grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 p-3 py-4 rounded-md gap-3 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
-          >
-            <div className="cursor-default flex gap-3 items-center justify-start font-semibold truncate">
-              <Avatar name={client.name} size="sm" rounded="md" />
-              {client.name}
-            </div>
-            <div className="cursor-default flex gap-2 items-center justify-start font-light text-sm lg:text-md truncate">
-              <MdAlternateEmail size={20} />
-              {client.email}
-            </div>
-            <div className="cursor-default flex gap-2 items-center justify-start font-light text-xs sm:text-sm lg:text-md truncate">
-              <FaPhone size={20} />
-              {client.phone}
-            </div>
-            <div className="cursor-default flex w-full gap-2 items-center justify-start font-light text-xs lg:text-sm capitalize">
-              <IoMdPin size={20} />
+        {!loading && clients.length > 0 ? (
+          clients.map((client: any) => (
+            <div
+              key={client.id}
+              className="reveal-item grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 p-3 py-4 rounded-md gap-3 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
+            >
+              <div className="cursor-default flex gap-3 items-center justify-start font-semibold truncate">
+                <Avatar name={client.name} size="sm" rounded="md" />
+                {client.name}
+              </div>
+              <div className="cursor-default flex gap-2 items-center justify-start font-light text-sm lg:text-md truncate">
+                <MdAlternateEmail size={20} />
+                {client.email}
+              </div>
+              <div className="cursor-default flex gap-2 items-center justify-start font-light text-xs sm:text-sm lg:text-md truncate">
+                <FaPhone size={20} />
+                {client.phone}
+              </div>
+              <div className="cursor-default flex w-full gap-2 items-center justify-start font-light text-xs lg:text-sm capitalize">
+                <IoMdPin size={20} />
 
-              {client.address.toLowerCase().length > 20 ? (
-                <Tooltip
-                  content={client.address
-                    .split(" ")
-                    .map(
-                      (word: string) =>
-                        word.charAt(0).toUpperCase() + word.slice(1)
-                    )
-                    .join(" ")}
-                  color="secondary"
-                >
+                {client.address.toLowerCase().length > 20 ? (
+                  <Tooltip
+                    content={client.address
+                      .split(" ")
+                      .map(
+                        (word: string) =>
+                          word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}
+                    color="secondary"
+                  >
+                    <span className="relative flex flex-col">
+                      <p className="truncate mb-1">
+                        {`${client.address.toLowerCase().substring(0, 20)}...`}
+                      </p>
+                      <p className="absolute top-[80%] text-xs text-zinc-800 dark:text-gray-300">
+                        {client.country}
+                      </p>
+                    </span>
+                  </Tooltip>
+                ) : (
                   <span className="relative flex flex-col">
                     <p className="truncate mb-1">
-                      {`${client.address.toLowerCase().substring(0, 20)}...`}
+                      {client.address.toLowerCase()}
                     </p>
                     <p className="absolute top-[80%] text-xs text-zinc-800 dark:text-gray-300">
                       {client.country}
                     </p>
                   </span>
-                </Tooltip>
-              ) : (
-                <span className="relative flex flex-col">
-                  <p className="truncate mb-1">
-                    {client.address.toLowerCase()}
-                  </p>
-                  <p className="absolute top-[80%] text-xs text-zinc-800 dark:text-gray-300">
-                    {client.country}
-                  </p>
-                </span>
-              )}
-            </div>
+                )}
+              </div>
 
-            <div className="xl:col-span-2 cursor-default flex gap-2 items-center justify-start font-light text-xs sm:text-sm lg:text-md">
-              {`${titleJson[String(client.title)] || client.title}`}
+              <div className="xl:col-span-2 cursor-default flex gap-2 items-center justify-start font-light text-xs sm:text-sm lg:text-md">
+                <MdBusinessCenter />{" "}
+                {`${titleJson[String(client.title)] || client.title}`}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : clients.length == 0 && !loading ? (
+          <div>No clients found</div>
+        ) : (
+          <div>Loading</div>
+        )}
       </div>
     </div>
   );
