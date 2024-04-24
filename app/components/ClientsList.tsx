@@ -217,12 +217,8 @@ function ghostClientsList() {
           <IoMdPin size={20} />
 
           <span className="relative flex flex-col w-full">
-            <p className="truncate mb-1  w-full">
-              <span className="bg-zinc-700/30 dark:bg-zinc-100/50 animate-pulse w-full h-[12px] rounded-md" />
-            </p>
-            <p className="absolute top-[80%] text-xs text-zinc-800 dark:text-gray-300  w-2/3">
-              <span className="bg-zinc-700/30 dark:bg-zinc-100/50 animate-pulse w-2/3 h-[9px] rounded-md" />
-            </p>
+            <span className="bg-zinc-700/30 dark:bg-zinc-100/50 animate-pulse w-full h-[12px] rounded-md" />
+            <span className="absolute top-[110%] bg-zinc-700/30 dark:bg-zinc-100/50 animate-pulse w-2/3 h-[9px] rounded-md " />
           </span>
         </div>
 
