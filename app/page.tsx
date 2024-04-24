@@ -35,11 +35,11 @@ const Home: React.FC = () => {
 
       // remember button config
       if (remember.checked) {
-        sessionStorage.setItem("email", email.value);
-        sessionStorage.setItem("password", password.value);
+        localStorage.setItem("email", email.value);
+        localStorage.setItem("password", password.value);
       } else {
-        sessionStorage.removeItem("email");
-        sessionStorage.removeItem("password");
+        localStorage.removeItem("email");
+        localStorage.removeItem("password");
       }
       router.push("/agenda");
 

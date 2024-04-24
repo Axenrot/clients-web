@@ -20,8 +20,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    if (typeof sessionStorage != "undefined") {
-      setToken((sessionStorage.getItem("token") || "") as string);
+    if (typeof localStorage != "undefined") {
+      setToken((localStorage.getItem("token") || "") as string);
     }
   }, []);
   useEffect(() => {

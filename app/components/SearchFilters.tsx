@@ -41,6 +41,7 @@ const SearchFilters = ({
                   className="flex items-center justify-center h-9 w-9"
                   onClick={() => {
                     setFilterTerm("");
+                    search("");
                   }}
                 >
                   <IoClose className="text-lg cursor-pointer hover:text-red transition-all duration-200 hover:rotate-90" />

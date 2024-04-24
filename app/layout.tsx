@@ -17,27 +17,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AuthProvider>
-      <html lang="en">
-        <body
-          className={`${inter.className} bg-[url('/feenixbg.png')] min-h-screen bg-fixed bg-cover`}
-        >
-          {children}
-          <Toaster
-            toastOptions={{
-              // Define default options
-              className: "",
-              duration: 5000,
-              style: {
-                background: "white",
-                border: "1px solid #e7e7e7",
-                color: "#101828",
-                fontWeight: "600",
-              },
-            }}
-          />
-        </body>
-      </html>
-    </AuthProvider>
+    <html lang="en">
+      <body
+        className={`${inter.className} bg-[url('/feenixbg.png')] min-h-screen bg-fixed bg-cover`}
+      >
+        <AuthProvider>{children}</AuthProvider>
+        <Toaster
+          toastOptions={{
+            className: "",
+            duration: 5000,
+            style: {
+              background: "white",
+              border: "1px solid #e7e7e7",
+              color: "#101828",
+              fontWeight: "600",
+            },
+          }}
+        />
+      </body>
+    </html>
   );
 }
