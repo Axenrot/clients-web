@@ -1,9 +1,9 @@
 "use client";
-import toast from "react-hot-toast";
 import { Dispatch, SetStateAction } from "react";
 import { GoPlus } from "react-icons/go";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoClose, IoSearchOutline } from "react-icons/io5";
 import { Input } from "rizzui";
+import { capitalizeThis } from "@/utils/utils";
 
 const SearchFilters = ({
   search,
@@ -22,23 +22,36 @@ const SearchFilters = ({
         <form
           action=""
           onSubmit={(e) => {
+            e.preventDefault();
             search(filterTerm);
-            toast("Hello!", {
-              icon: "👏",
-            });
           }}
         >
           <Input
             placeholder="Search something..."
             value={filterTerm}
             onChange={(e) => {
-              setFilterTerm(e.target.value);
+              setFilterTerm(capitalizeThis(e.target.value));
             }}
+            inputClassName="font-semibold"
             variant="text"
             suffix={
-              <button type="submit">
-                <IoSearchOutline className="text-lg cursor-pointer hover:text-secondary transition-all duration-200 hover:rotate-6" />
-              </button>
+              <div className="flex gap-0 items-center justify-center">
+                <button
+                  type="button"
+                  className="flex items-center justify-center h-9 w-9"
+                  onClick={() => {
+                    setFilterTerm("");
+                  }}
+                >
+                  <IoClose className="text-lg cursor-pointer hover:text-red transition-all duration-200 hover:rotate-90" />
+                </button>
+                <button
+                  type="submit"
+                  className="flex items-center justify-center h-9 w-9"
+                >
+                  <IoSearchOutline className="text-lg cursor-pointer hover:text-secondary transition-all duration-200 hover:rotate-6" />
+                </button>
+              </div>
             }
           />
         </form>

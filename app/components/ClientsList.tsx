@@ -13,6 +13,7 @@ import { GoPlus } from "react-icons/go";
 import { MdAlternateEmail, MdBusinessCenter } from "react-icons/md";
 import { FaPhone } from "react-icons/fa";
 import { IoMdPin } from "react-icons/io";
+import { capitalizeThis } from "@/utils/utils";
 
 const ClientsList = ({
   clients = [],
@@ -33,9 +34,9 @@ const ClientsList = ({
   showAddForm: boolean;
   loading: boolean;
 }) => {
-  // useEffect(() => {
-  //   chainReveal();
-  // }, [clients]);
+  useEffect(() => {
+    chainReveal();
+  }, [clients]);
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
@@ -232,12 +233,4 @@ function ghostClientsList() {
       </div>
     );
   });
-}
-
-function capitalizeThis(str: string) {
-  str = str.toLowerCase();
-  return str
-    .split(" ")
-    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
 }

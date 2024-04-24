@@ -9,7 +9,7 @@ export function chainReveal() {
     ".reveal-item",
     {
       opacity: 0,
-      translateY: -50,
+      translateY: 50,
     },
     {
       opacity: 1,
