@@ -39,15 +39,6 @@ const ClientsList = ({
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
-        {/* <div className="hidden lg:grid xl:grid-cols-6 p-2 rounded-md gap-2 flex-row">
-          <div>Name</div>
-          <div>Email</div>
-          <div>Phone</div>
-          <div>Address</div>
-          <div>Title</div>
-          <div>Country</div>
-        </div> */}
-
         {showAddForm && (
           <form
             onSubmit={handleAddFormSubmit}
