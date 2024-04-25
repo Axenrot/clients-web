@@ -11,7 +11,7 @@ import { RiPencilFill } from "react-icons/ri";
 import { chainReveal } from "@/utils/animations";
 import { GoPlus } from "react-icons/go";
 import { MdAlternateEmail, MdBusinessCenter } from "react-icons/md";
-import { FaPhone } from "react-icons/fa";
+import { FaPhone, FaUser } from "react-icons/fa";
 import { IoMdPin } from "react-icons/io";
 import { capitalizeThis } from "@/utils/utils";
 
@@ -43,14 +43,19 @@ const ClientsList = ({
         {showAddForm && (
           <form
             onSubmit={handleAddFormSubmit}
-            className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-7 p-2 rounded-md gap-2 flex-row bg-neutral-light/80 dark:bg-zinc-950/80 fadein"
+            className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-7 p-2 gap-y-1 rounded-md gap-2 items-center bg-neutral-light/80 dark:bg-zinc-950/80 fadein"
           >
             <Input
               placeholder="Name"
               name="name"
               id="name"
               inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
-              className="group h-[30px]"
+              prefix={
+                <FaUser
+                  size={20}
+                  className="opacity-30 group-focus:opacity-100 data-[filled=true]:opacity-100 data-[filled=true]:text-blue"
+                />
+              }
               suffix={
                 <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
               }
@@ -61,7 +66,12 @@ const ClientsList = ({
               name="email"
               id="email"
               inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
-              className="group h-[30px]"
+              prefix={
+                <MdAlternateEmail
+                  size={20}
+                  className="opacity-30 group-focus:opacity-100 data-[filled=true]:opacity-100 data-[filled=true]:text-blue"
+                />
+              }
               suffix={
                 <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
               }
@@ -72,7 +82,12 @@ const ClientsList = ({
               name="phone"
               id="phone"
               inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
-              className="group h-[30px]"
+              prefix={
+                <FaPhone
+                  size={20}
+                  className="opacity-30 group-focus:opacity-100 data-[filled=true]:opacity-100 data-[filled=true]:text-blue"
+                />
+              }
               suffix={
                 <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
               }
@@ -83,7 +98,12 @@ const ClientsList = ({
               name="address"
               id="address"
               inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
-              className="group h-[30px]"
+              prefix={
+                <IoMdPin
+                  size={20}
+                  className="opacity-30 group-focus:opacity-100 data-[filled=true]:opacity-100 data-[filled=true]:text-blue"
+                />
+              }
               suffix={
                 <RiPencilFill className="opacity-0 group-hover:opacity-100 transition-all duration-200" />
               }
@@ -96,7 +116,12 @@ const ClientsList = ({
               value={country}
               onChange={setCountry}
               options={countryOptions}
-              className={"h-[30px]"}
+              prefix={
+                <IoMdPin
+                  size={20}
+                  className="opacity-30 group-focus:opacity-100 data-[filled=true]:opacity-100 data-[filled=true]:text-blue"
+                />
+              }
               selectClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
               optionClassName="transition-all duration-100"
               variant="text"
@@ -110,16 +135,24 @@ const ClientsList = ({
                 value={title}
                 onChange={setTitle}
                 options={titleOptions}
-                className={"h-[30px]"}
+                prefix={
+                  <MdBusinessCenter
+                    size={20}
+                    className="opacity-30 group-focus:opacity-100 data-[filled=true]:opacity-100 data-[filled=true]:text-blue"
+                  />
+                }
                 selectClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
                 optionClassName="transition-all duration-100"
                 variant="text"
               />
               <Button
                 type="submit"
-                className="w-fit p-2 aspect-square dark:bg-primary bg-primary-dark text-primary dark:text-primary-dark"
+                className="self-end h-[32px] w-[32px] my-auto p-1 aspect-square dark:bg-primary bg-primary-dark text-primary dark:text-primary-dark"
               >
-                <GoPlus className="text-2xl hover:text-blue transition-all duration-200 hover:scale-105" />
+                <GoPlus
+                  size={50}
+                  className="hover:text-blue transition-all duration-200 hover:scale-105"
+                />
               </Button>
             </span>
           </form>
@@ -133,7 +166,22 @@ const ClientsList = ({
             >
               <div className="cursor-default h-[30px] flex gap-3 items-center justify-start font-semibold truncate">
                 <Avatar name={client.name} size="sm" rounded="md" />
-                {capitalizeThis(client.name)}
+                {client.name.toLowerCase().length > 16 ? (
+                  <Tooltip
+                    content={capitalizeThis(client.address)}
+                    color="secondary"
+                  >
+                    <p className="truncate">
+                      {`${capitalizeThis(
+                        client.name.toLowerCase().substring(0, 16)
+                      )}...`}
+                    </p>
+                  </Tooltip>
+                ) : (
+                  <span className="relative flex flex-col">
+                    <p className="truncate">{capitalizeThis(client.name)}</p>
+                  </span>
+                )}
               </div>
               <div className="cursor-default h-[30px] flex gap-2 items-center justify-start font-light text-sm lg:text-md truncate">
                 <MdAlternateEmail size={20} />
@@ -173,7 +221,7 @@ const ClientsList = ({
               </div>
 
               <div className="xl:col-span-2 cursor-default h-[30px] flex gap-2 items-center justify-start font-light text-xs sm:text-sm lg:text-md">
-                <MdBusinessCenter />{" "}
+                <MdBusinessCenter size={20} />{" "}
                 {`${titleJson[String(client.title)] || client.title}`}
               </div>
             </div>
