@@ -68,7 +68,7 @@ const LoginForm = ({
               </div>
               <button
                 disabled
-                className="opacity-0 text-sm font-medium text-secondary disabled:opacity-0 hover:underline "
+                className="opacity-0 text-sm font-medium text-purple disabled:opacity-0 hover:underline "
               >
                 Forgot password?
               </button>
@@ -85,7 +85,7 @@ const LoginForm = ({
               <button
                 type="button"
                 onClick={() => setIsLogin(false)}
-                className="font-medium transition-all duration-200 hover:text-blue hover:underline "
+                className="font-medium transition-all duration-200 hover:text-purple hover:underline "
               >
                 Sign up
               </button>

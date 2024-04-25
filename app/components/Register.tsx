@@ -80,7 +80,7 @@ const RegisterForm = ({
                 <button
                   type="button"
                   onClick={() => setIsLogin(true)}
-                  className="font-medium text-primary-700 hover:text-blue hover:underline "
+                  className="font-medium text-primary-700 hover:text-purple hover:underline "
                 >
                   Sign in
                 </button>

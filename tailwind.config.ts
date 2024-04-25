@@ -46,6 +46,10 @@ const config: Config = {
           DEFAULT: "#0eafd4", // Sea Blue
           dark: colors.sky[700],
         },
+        purple: {
+          DEFAULT: "#7222BC", // Sea Blue
+          dark: "#491779",
+        },
         green: {
           lighter: colors.emerald[200],
           DEFAULT: "#32b07e", // Jungle Green

@@ -32,14 +32,14 @@ const Menu = () => {
         <FaUser
           size={20}
           data-selected={pathname == "/user"}
-          className="data-[selected=true]:text-secondary hover:text-secondary transition-all duration-200 fadein"
+          className="data-[selected=true]:text-purple hover:text-purple transition-all duration-200 fadein"
         />
       </Link>
       <Link href={"/agenda"}>
         <FaAddressBook
           size={20}
           data-selected={pathname == "/"}
-          className="data-[selected=true]:text-secondary hover:text-secondary transition-all duration-200 fadein"
+          className="data-[selected=true]:text-purple hover:text-purple transition-all duration-200 fadein"
         />
       </Link>
 
@@ -48,7 +48,7 @@ const Menu = () => {
         onClick={() => {
           if (logout) logout();
         }}
-        className="cursor-pointer ml-auto md:ml-0 mt-0 md:mt-auto hover:text-secondary transition-all duration-200 fadein"
+        className="cursor-pointer ml-auto md:ml-0 mt-0 md:mt-auto hover:text-purple transition-all duration-200 fadein"
       />
     </div>
   );

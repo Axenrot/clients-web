@@ -11,9 +11,10 @@ import { RiPencilFill } from "react-icons/ri";
 import { chainReveal } from "@/utils/animations";
 import { GoPlus } from "react-icons/go";
 import { MdAlternateEmail, MdBusinessCenter } from "react-icons/md";
-import { FaPhone, FaUser } from "react-icons/fa";
+import { FaPhone, FaTrashAlt, FaUser } from "react-icons/fa";
 import { IoMdPin } from "react-icons/io";
 import { capitalizeThis } from "@/utils/utils";
+import toast from "react-hot-toast";
 
 const ClientsList = ({
   clients = [],
@@ -40,8 +41,11 @@ const ClientsList = ({
   const [address, setAddress] = useState("");
 
   useEffect(() => {
-    chainReveal();
+    if (clients.length) {
+      chainReveal();
+    }
   }, [clients]);
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
@@ -63,7 +67,7 @@ const ClientsList = ({
                 <FaUser
                   size={20}
                   data-filled={!!name}
-                  className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-blue transition-all duration-200"
+                  className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-purple transition-all duration-200"
                 />
               }
               suffix={
@@ -84,7 +88,7 @@ const ClientsList = ({
                 <MdAlternateEmail
                   size={20}
                   data-filled={!!email}
-                  className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-blue transition-all duration-200"
+                  className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-purple transition-all duration-200"
                 />
               }
               suffix={
@@ -105,7 +109,7 @@ const ClientsList = ({
                 <FaPhone
                   size={20}
                   data-filled={!!phone}
-                  className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-blue transition-all duration-200"
+                  className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-purple transition-all duration-200"
                 />
               }
               suffix={
@@ -126,7 +130,7 @@ const ClientsList = ({
                 <IoMdPin
                   size={20}
                   data-filled={!!address}
-                  className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-blue transition-all duration-200"
+                  className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-purple transition-all duration-200"
                 />
               }
               suffix={
@@ -145,7 +149,7 @@ const ClientsList = ({
                 <IoMdPin
                   size={20}
                   data-filled={!!country}
-                  className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-blue transition-all duration-200"
+                  className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-purple transition-all duration-200"
                 />
               }
               selectClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
@@ -165,7 +169,7 @@ const ClientsList = ({
                   <MdBusinessCenter
                     size={20}
                     data-filled={!!title}
-                    className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-blue transition-all duration-200"
+                    className="opacity-30 data-[filled=true]:opacity-100 data-[filled=true]:text-purple transition-all duration-200"
                   />
                 }
                 selectClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
@@ -178,7 +182,7 @@ const ClientsList = ({
               >
                 <GoPlus
                   size={50}
-                  className="hover:text-blue transition-all duration-200 hover:scale-105"
+                  className="hover:text-purple transition-all duration-200 hover:scale-105"
                 />
               </Button>
             </span>
@@ -191,7 +195,7 @@ const ClientsList = ({
               key={client.id}
               id={`client-${client.id}`}
               data-client={JSON.stringify(client)}
-              className="reveal-item grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 p-3 py-4 rounded-md gap-3 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
+              className="fadeinright grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 p-3 py-4 rounded-md gap-3 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
             >
               <div className="cursor-default h-[30px] flex gap-3 items-center justify-start font-semibold truncate">
                 <Avatar name={client.name} size="sm" rounded="md" />
@@ -249,10 +253,24 @@ const ClientsList = ({
                 )}
               </div>
 
-              <div className="xl:col-span-2 cursor-default h-[30px] flex gap-2 items-center justify-start font-light text-xs sm:text-sm lg:text-md">
-                <MdBusinessCenter size={20} data-filled={!!title} />{" "}
-                {`${titleJson[String(client.title)] || client.title}`}
-              </div>
+              <span className="justify-between flex gap-2 xl:col-span-2 w-full">
+                <div className="cursor-default h-[30px] flex gap-2 items-center justify-start font-light text-xs sm:text-sm lg:text-md">
+                  <MdBusinessCenter size={20} data-filled={!!title} />{" "}
+                  {`${titleJson[String(client.title)] || client.title}`}
+                </div>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    toast("DELETE");
+                  }}
+                  className="h-[32px] w-[32px] my-auto p-1 aspect-square dark:bg-primary bg-primary-dark text-primary dark:text-primary-dark"
+                >
+                  <FaTrashAlt
+                    size={30}
+                    className="hover:text-purple transition-all duration-200 hover:scale-105"
+                  />
+                </Button>
+              </span>
             </div>
           ))
         ) : clients.length == 0 && !loading ? (
@@ -276,7 +294,7 @@ function ghostClientsList() {
     return (
       <div
         key={`ghots-${index}`}
-        className="reveal-item grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 p-3 py-4 rounded-md gap-3 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
+        className="fadeinright grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 p-3 py-4 rounded-md gap-3 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
       >
         <div className="cursor-default h-[30px] flex gap-3 items-center justify-start font-semibold truncate">
           <Avatar name={"Yuri Leon"} size="sm" rounded="md" />

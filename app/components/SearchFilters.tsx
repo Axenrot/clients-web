@@ -50,7 +50,7 @@ const SearchFilters = ({
                   type="submit"
                   className="flex items-center justify-center h-9 w-9"
                 >
-                  <IoSearchOutline className="text-lg cursor-pointer hover:text-secondary transition-all duration-200 hover:rotate-6" />
+                  <IoSearchOutline className="text-lg cursor-pointer hover:text-purple transition-all duration-200 hover:rotate-6" />
                 </button>
               </div>
             }
@@ -58,7 +58,7 @@ const SearchFilters = ({
         </form>
 
         <button onClick={handleAddClient}>
-          <GoPlus className="text-2xl hover:text-blue transition-all duration-200 hover:scale-105" />
+          <GoPlus className="text-2xl hover:text-purple transition-all duration-200 hover:scale-105" />
         </button>
       </span>
     </div>
