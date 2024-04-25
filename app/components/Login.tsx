@@ -11,8 +11,8 @@ const LoginForm = ({
   handleLoginSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   setIsLogin: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const [savedEmail, setSavedEmail] = useState<any | null>(null);
-  const [savedPassword, setSavedPassword] = useState<string | null>(null);
+  const [savedEmail, setSavedEmail] = useState<any>("");
+  const [savedPassword, setSavedPassword] = useState<string>("");
 
   useEffect(() => {
     let storedEmail = (localStorage.getItem("email") as string) || "";
