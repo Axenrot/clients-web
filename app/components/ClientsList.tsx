@@ -37,7 +37,10 @@ const ClientsList = ({
   setCountry: React.Dispatch<any>;
   title: any;
   setTitle: React.Dispatch<any>;
-  handleAddFormSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  handleAddFormSubmit: (
+    e: React.FormEvent<HTMLFormElement>,
+    clear: () => void
+  ) => Promise<void>;
   setShowAddForm: React.Dispatch<any>;
   showAddForm: boolean;
   loading: boolean;
