@@ -55,6 +55,7 @@ const ClientsList = ({
             className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-7 p-2 gap-y-1 rounded-md gap-2 items-center bg-neutral-light/80 dark:bg-zinc-950/80 fadein"
           >
             <Input
+              required
               placeholder="Name"
               name="name"
               id="name"
@@ -76,9 +77,11 @@ const ClientsList = ({
               variant="text"
             />
             <Input
+              required
               placeholder="Email"
               name="email"
               id="email"
+              type="email"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);

@@ -41,12 +41,12 @@ export default function Agenda() {
     const address = form.elements.namedItem("address") as HTMLInputElement;
 
     const newClient = {
-      name: name.value,
-      email: email.value,
-      title: title.value,
-      country: country.value,
-      phone: phone.value,
-      address: address.value,
+      name: name?.value || "",
+      email: email?.value || "",
+      title: title?.value || "",
+      country: country?.value || "",
+      phone: phone?.value || "",
+      address: address?.value || "",
     };
     try {
       await api.post("/client/create", newClient).then(async () => {
