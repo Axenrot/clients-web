@@ -10,14 +10,16 @@ import { Avatar, Button, Input, Select, Tooltip } from "rizzui";
 import { RiPencilFill } from "react-icons/ri";
 import { chainReveal } from "@/utils/animations";
 import { GoPlus } from "react-icons/go";
-import { MdAlternateEmail, MdBusinessCenter } from "react-icons/md";
+import { MdAlternateEmail, MdBusinessCenter, MdEdit } from "react-icons/md";
 import { FaPhone, FaTrashAlt, FaUser } from "react-icons/fa";
 import { IoMdPin } from "react-icons/io";
 import { capitalizeThis } from "@/utils/utils";
 import toast from "react-hot-toast";
+import api from "@/services/Api";
 
 const ClientsList = ({
   clients = [],
+  setClients,
   country,
   setCountry,
   title,
@@ -25,8 +27,10 @@ const ClientsList = ({
   showAddForm,
   handleAddFormSubmit,
   loading,
+  setLoading,
 }: {
   clients?: Array<IClient>;
+  setClients: React.Dispatch<any>;
   country: any;
   setCountry: React.Dispatch<any>;
   title: any;
@@ -34,17 +38,27 @@ const ClientsList = ({
   handleAddFormSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   showAddForm: boolean;
   loading: boolean;
+  setLoading: React.Dispatch<any>;
 }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
-  useEffect(() => {
-    if (clients.length) {
-      chainReveal();
-    }
-  }, [clients]);
+  async function updateClient(id: number) {
+    setLoading(true);
+    api.patch(`/client/update/${id}`).then((response: any) => {
+      setClients(response.data);
+      setLoading(false);
+    });
+  }
+
+  async function deleteClient(id: number) {
+    api.delete(`/client/${id}`).then((response: any) => {
+      setClients(clients.filter((client) => client.id != id));
+      toast.success("Client deleted successfully!");
+    });
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -121,6 +135,7 @@ const ClientsList = ({
               variant="text"
             />
             <Input
+              required
               placeholder="Address"
               name="address"
               id="address"
@@ -145,6 +160,7 @@ const ClientsList = ({
               placeholder="Country"
               name="country"
               id="country"
+              aria-required={true}
               value={country}
               onChange={setCountry}
               options={countryOptions}
@@ -165,6 +181,7 @@ const ClientsList = ({
                 placeholder="Title"
                 name="title"
                 id="title"
+                aria-required={true}
                 value={title}
                 onChange={setTitle}
                 options={titleOptions}
@@ -198,9 +215,9 @@ const ClientsList = ({
               key={client.id}
               id={`client-${client.id}`}
               data-client={JSON.stringify(client)}
-              className="fadeinright grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 p-3 py-4 rounded-md gap-3 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
+              className="relative group fadeinright grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 p-3 py-4 rounded-md gap-3 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
             >
-              <div className="cursor-default h-[30px] flex gap-3 items-center justify-start font-semibold truncate">
+              <div className="cursor-default h-[30px] flex gap-3 items-center justify-start font-semibold">
                 <Avatar name={client.name} size="sm" rounded="md" />
                 {client.name.toLowerCase().length > 16 ? (
                   <Tooltip
@@ -256,23 +273,27 @@ const ClientsList = ({
                 )}
               </div>
 
-              <span className="justify-between flex gap-2 xl:col-span-2 w-full">
+              <span className="justify-between flex gap-2 col-span-2 w-full">
                 <div className="cursor-default h-[30px] flex gap-2 items-center justify-start font-light text-xs sm:text-sm lg:text-md">
                   <MdBusinessCenter size={20} data-filled={!!title} />{" "}
                   {`${titleJson[String(client.title)] || client.title}`}
                 </div>
-                <Button
-                  type="button"
+
+                <MdEdit
+                  size={20}
                   onClick={() => {
-                    toast("DELETE");
+                    toast("Edit");
                   }}
-                  className="h-[32px] w-[32px] my-auto p-1 aspect-square dark:bg-primary bg-primary-dark text-primary dark:text-primary-dark"
-                >
-                  <FaTrashAlt
-                    size={30}
-                    className="hover:text-purple transition-all duration-200 hover:scale-105"
-                  />
-                </Button>
+                  className="group-hover:opacity-100 opacity-0 cursor-pointer absolute top-2 right-12 hover:text-purple transition-all duration-200 hover:scale-105"
+                />
+
+                <FaTrashAlt
+                  size={20}
+                  onClick={() => {
+                    deleteClient(client.id);
+                  }}
+                  className="group-hover:opacity-100 opacity-0 cursor-pointer absolute top-2 right-4 hover:text-purple transition-all duration-200 hover:scale-105"
+                />
               </span>
             </div>
           ))
@@ -299,7 +320,7 @@ function ghostClientsList() {
         key={`ghots-${index}`}
         className="fadeinright grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 p-3 py-4 rounded-md gap-3 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
       >
-        <div className="cursor-default h-[30px] flex gap-3 items-center justify-start font-semibold truncate">
+        <div className="cursor-default h-[30px] flex gap-3 items-center justify-start font-semibold">
           <Avatar name={"Yuri Leon"} size="sm" rounded="md" />
           <span className=" bg-zinc-700/30 dark:bg-zinc-100/50 animate-pulse w-full h-[12px] rounded-md" />
         </div>

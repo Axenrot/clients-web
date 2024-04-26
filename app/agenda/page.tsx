@@ -49,8 +49,8 @@ export default function Agenda() {
       address: address?.value || "",
     };
     try {
-      await api.post("/client/create", newClient).then(async () => {
-        search(filterTerm);
+      await api.post("/client/create", newClient).then((response: any) => {
+        setClients((old) => [response.data, ...old]);
         toast.success(`Client added successfully!`);
         name.value = "";
         email.value = "";
@@ -58,19 +58,19 @@ export default function Agenda() {
         address.value = "";
         setTitle(null);
         setCountry(null);
+        setShowAddForm(false);
       });
     } catch (error: any) {
       if (Array.isArray(error?.response?.data?.message)) {
-        error!.response?.data.message.forEach((message: string) =>
-          toast.error(message)
-        );
+        toast(`Fill all fields please!`, {
+          icon: "ℹ️",
+        });
       } else if (error?.response?.data?.message) {
         toast.error(error?.response?.data?.message);
       } else {
         toast.error("Couldn't handle this, please try again");
       }
     }
-    setShowAddForm(false);
   };
 
   async function search(query: string) {
@@ -108,7 +108,9 @@ export default function Agenda() {
                   setTitle={setTitle}
                   showAddForm={showAddForm}
                   clients={clients}
+                  setClients={setClients}
                   loading={loading}
+                  setLoading={setLoading}
                   handleAddFormSubmit={handleAddFormSubmit}
                 />
               </DynamicProtectedRoute>
