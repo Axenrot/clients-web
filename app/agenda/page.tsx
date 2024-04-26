@@ -18,7 +18,7 @@ const DynamicProtectedRoute = dynamic(
 );
 
 export default function Agenda() {
-  const { user } = useContext(AuthContext) ?? {};
+  const { user, logout } = useContext(AuthContext) ?? {};
   const [clients, setClients] = useState<IClient[]>([]);
   const [country, setCountry] = useState<any>(null);
   const [title, setTitle] = useState<any>(null);
@@ -62,11 +62,14 @@ export default function Agenda() {
       });
     } catch (error: any) {
       if (Array.isArray(error?.response?.data?.message)) {
-        toast(`Fill all fields please!`, {
-          icon: "ℹ️",
+        toast(`Fill all fields properly please!`, {
+          icon: "✍🏽",
         });
       } else if (error?.response?.data?.message) {
         toast.error(error?.response?.data?.message);
+        if (error?.response?.data?.message == "Unauthorized") {
+          if (logout) logout();
+        }
       } else {
         toast.error("Couldn't handle this, please try again");
       }

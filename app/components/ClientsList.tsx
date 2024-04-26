@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   IClient,
   countryOptions,
@@ -16,6 +16,7 @@ import { capitalizeThis } from "@/utils/utils";
 import toast from "react-hot-toast";
 import api from "@/services/Api";
 import { IoCheckmark, IoClose } from "react-icons/io5";
+import { AuthContext } from "@/context/Auth";
 
 const ClientsList = ({
   clients = [],
@@ -42,22 +43,20 @@ const ClientsList = ({
   loading: boolean;
   setLoading: React.Dispatch<any>;
 }) => {
+  const { logout } = useContext(AuthContext) ?? {};
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [edit, setEdit] = useState(null);
+  const [edit, setEdit] = useState<any>(null);
 
   function clientForm() {
     return (
       <form
-        onSubmit={
-          edit == null
-            ? handleAddFormSubmit
-            : () => {
-                updateClient(edit);
-              }
-        }
+        onSubmit={(e) => {
+          edit == null ? handleAddFormSubmit(e) : updateClient(edit);
+          setName("");
+        }}
         className="fadeinright flex col-span-full p-1 gap-2 rounded-md bg-neutral-light/80 dark:bg-zinc-950/80 fadein"
       >
         <span className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-y-1 gap-2 items-center">
@@ -229,10 +228,41 @@ const ClientsList = ({
 
   async function updateClient(client: any) {
     setLoading(true);
-    api.patch(`/client/update/${client.id}`).then((response: any) => {
-      setClients(response.data);
-      setLoading(false);
+    const newClient = {
+      name: name || "",
+      email: email || "",
+      title: title.value || "",
+      country: country.value || "",
+      phone: phone || "",
+      address: address || "",
+    };
+    Object.keys(newClient).forEach((key) => {
+      // @ts-ignore
+      if (!newClient[key]) {
+        // @ts-ignore
+        delete newClient[key];
+      }
     });
+    api
+      .patch(`/client/update/${client.id}`, newClient)
+      .then((response: any) => {
+        setClients(response.data);
+        setLoading(false);
+      })
+      .catch((error: any) => {
+        if (Array.isArray(error?.response?.data?.message)) {
+          toast(`Fill all fields properly please!`, {
+            icon: "✍🏽",
+          });
+        } else if (error?.response?.data?.message) {
+          toast.error(error?.response?.data?.message);
+          if (error?.response?.data?.message == "Unauthorized") {
+            if (logout) logout();
+          }
+        } else {
+          toast.error("Couldn't handle this, please try again");
+        }
+      });
   }
 
   async function deleteClient(id: number) {
@@ -342,6 +372,20 @@ const ClientsList = ({
                       size={20}
                       onClick={() => {
                         setShowAddForm(false);
+                        setName(client.name);
+                        setEmail(client.email);
+                        setPhone(client.phone);
+                        setAddress(client.address);
+                        setCountry(
+                          countryOptions.find(
+                            (item) => item.value == client.country
+                          )
+                        );
+                        setTitle(
+                          titleOptions.find(
+                            (item) => item.value == client.title
+                          )
+                        );
                         setEdit(client);
                       }}
                       className="group-hover:opacity-100 opacity-0 cursor-pointer absolute top-2 right-12 hover:text-purple transition-all duration-200 hover:scale-105"
