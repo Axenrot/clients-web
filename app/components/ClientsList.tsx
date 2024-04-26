@@ -12,7 +12,7 @@ import { GoPlus } from "react-icons/go";
 import { MdAlternateEmail, MdBusinessCenter, MdEdit } from "react-icons/md";
 import { FaPhone, FaTrashAlt, FaUser } from "react-icons/fa";
 import { IoMdPin } from "react-icons/io";
-import { capitalizeThis } from "@/utils/utils";
+import { capitalizeThis, onlyNumbers } from "@/utils/utils";
 import toast from "react-hot-toast";
 import api from "@/services/Api";
 import { IoCheckmark, IoClose } from "react-icons/io5";
@@ -125,7 +125,7 @@ const ClientsList = ({
             id="phone"
             value={phone}
             onChange={(e) => {
-              setPhone(e.target.value);
+              setPhone(onlyNumbers(e.target.value));
             }}
             inputClassName="hover:outline-none outline-none border-0 cursor-pointer shadow-none hover:border-0 focus:ring-0 focus:outline-none focus:border-0 focus:shadow-none"
             prefix={
@@ -315,7 +315,7 @@ const ClientsList = ({
                 id={`client-${client.id}`}
                 data-client={JSON.stringify(client)}
                 data-edit={edit == client}
-                className="relative group fadeinright grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 p-3 py-4 data-[edit=true]:py-0 data-[edit=true]:px-0 rounded-md gap-3 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
+                className="client relative group fadeinright grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 p-3 py-4 data-[edit=true]:py-0 data-[edit=true]:px-0 rounded-md gap-3 flex-row bg-neutral-light/80 dark:bg-zinc-950/80"
               >
                 <>
                   <div className="cursor-default h-[30px] flex gap-3 items-center justify-start font-semibold">
