@@ -50,13 +50,23 @@ const ClientsList = ({
   const [address, setAddress] = useState("");
   const [edit, setEdit] = useState<any>(null);
 
+  function clear() {
+    setName("");
+    setEmail("");
+    setPhone("");
+    setAddress("");
+    setCountry(null);
+    setTitle(null);
+    setShowAddForm(false);
+    setEdit(null);
+  }
+
   function clientForm() {
     return (
       <form
-        key={edit.id}
+        key={edit?.id ? `client-edit-${edit.id}` : `client-add-form`}
         onSubmit={(e) => {
-          edit == null ? handleAddFormSubmit(e) : updateClient(edit);
-          setName("");
+          edit == null ? handleAddFormSubmit(e, clear) : updateClient(edit);
         }}
         className="fadeinright flex col-span-full p-1 gap-2 rounded-md bg-neutral-light/80 dark:bg-zinc-950/80 fadein"
       >
@@ -259,6 +269,7 @@ const ClientsList = ({
           return old;
         });
         setLoading(false);
+        clear();
       })
       .catch((error: any) => {
         if (Array.isArray(error?.response?.data?.message)) {
@@ -275,6 +286,7 @@ const ClientsList = ({
           if (logout) logout();
         }
         setLoading(false);
+        clear();
       });
   }
 

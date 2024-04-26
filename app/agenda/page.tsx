@@ -31,7 +31,10 @@ export default function Agenda() {
     setShowAddForm(!showAddForm);
   };
 
-  const handleAddFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddFormSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+    clear: () => void
+  ) => {
     e.preventDefault();
 
     const form = e.currentTarget;
@@ -52,13 +55,7 @@ export default function Agenda() {
       await api.post("/client/create", newClient).then((response: any) => {
         setClients((old) => [response.data, ...old]);
         toast.success(`Client added successfully!`);
-        name.value = "";
-        email.value = "";
-        phone.value = "";
-        address.value = "";
-        setTitle(null);
-        setCountry(null);
-        setShowAddForm(false);
+        clear();
       });
     } catch (error: any) {
       if (Array.isArray(error?.response?.data?.message)) {
@@ -74,6 +71,7 @@ export default function Agenda() {
         toast.error("Couldn't handle this, please try again");
         if (logout) logout();
       }
+      clear();
     }
   };
 
