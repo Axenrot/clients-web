@@ -72,16 +72,23 @@ export default function Agenda() {
         }
       } else {
         toast.error("Couldn't handle this, please try again");
+        if (logout) logout();
       }
     }
   };
 
   async function search(query: string) {
     setLoading(true);
-    api.get(`/client/list/?search=${query}`).then((response: any) => {
-      setClients(response.data);
-      setLoading(false);
-    });
+    api
+      .get(`/client/list/?search=${query}`)
+      .then((response: any) => {
+        setClients(response.data);
+        setLoading(false);
+      })
+      .catch((error: any) => {
+        toast.error("Couldn't handle this, please try again");
+        if (logout) logout();
+      });
   }
 
   useEffect(() => {

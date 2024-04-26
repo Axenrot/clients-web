@@ -53,6 +53,7 @@ const ClientsList = ({
   function clientForm() {
     return (
       <form
+        key={edit.id}
         onSubmit={(e) => {
           edit == null ? handleAddFormSubmit(e) : updateClient(edit);
           setName("");
@@ -231,9 +232,9 @@ const ClientsList = ({
     const newClient = {
       name: name || "",
       email: email || "",
+      phone: phone || "",
       title: title.value || "",
       country: country.value || "",
-      phone: phone || "",
       address: address || "",
     };
     Object.keys(newClient).forEach((key) => {
@@ -246,7 +247,17 @@ const ClientsList = ({
     api
       .patch(`/client/update/${client.id}`, newClient)
       .then((response: any) => {
-        setClients(response.data);
+        setClients((old: any) => {
+          old.forEach((item: any, index: number) => {
+            if (item.id == client.id) {
+              old[index] = {
+                ...old[index],
+                ...newClient,
+              };
+            }
+          });
+          return old;
+        });
         setLoading(false);
       })
       .catch((error: any) => {
@@ -261,7 +272,9 @@ const ClientsList = ({
           }
         } else {
           toast.error("Couldn't handle this, please try again");
+          if (logout) logout();
         }
+        setLoading(false);
       });
   }
 
