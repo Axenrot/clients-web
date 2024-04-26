@@ -90,9 +90,9 @@ export default function Agenda() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <div className="flex w-full container p-3 h-screen">
-        <div className="flex-1 flex flex-col-reverse md:flex-row w-full overflow-hidden bg-white dark:bg-primary-dark shadow-lg shadow-black/20 rounded-xl border-2 border-primary/10 dark:border-primary-dark/30">
+        <div className="flex-1 max-h-full flex flex-col-reverse md:flex-row w-full bg-white dark:bg-primary-dark shadow-lg shadow-black/20 rounded-xl border-2 border-primary/10 dark:border-primary-dark/30">
           <Menu />
-          <div className="relative flex-1 flex flex-col w-full gap-2">
+          <div className="relative flex-1 flex flex-col w-full gap-2 max-h-[calc(100%-50px)] md:max-h-full">
             <Layout title="Clients Agenda">
               <DynamicProtectedRoute>
                 <SearchFilters
@@ -107,6 +107,7 @@ export default function Agenda() {
                   title={title}
                   setTitle={setTitle}
                   showAddForm={showAddForm}
+                  setShowAddForm={setShowAddForm}
                   clients={clients}
                   setClients={setClients}
                   loading={loading}
