@@ -12,7 +12,7 @@ const Menu = () => {
   const { logout } = useContext(AuthContext) ?? {};
 
   return (
-    <div className="flex md:flex-col gap-12 justify-center items-center w-full h-[50px] md:h-full md:w-[50px] bg-neutral-primary/60 border-t md:border-t-0 md:border-r border-zinc-200/20 dark:border-black/10 px-3 md:px-0 md:py-3 shadow-sm bg-zinc-100/40 dark:bg-zinc-950/50">
+    <div className="flex md:flex-col gap-12 justify-center items-center w-full h-[50px] md:h-full md:w-[50px] bg-neutral-primary/60 border-t md:rounded-br-none md:border-t-0 md:border-r rounded-b-lg md:rounded-l-lg border-zinc-200/20 dark:border-black/10 px-3 md:px-0 md:py-3 shadow-sm bg-zinc-100/40 dark:bg-zinc-950/50">
       <div className="relative inline-flex mr-auto md:mr-0 mb-0 md:mb-auto fadein">
         <Avatar
           name="Jane Doe"
